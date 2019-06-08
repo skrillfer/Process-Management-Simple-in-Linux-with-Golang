@@ -51,23 +51,27 @@ func main() {
     if err != nil {
         log.Fatal("stat read fail")
     }
-    fmt.Printf("Numero de Total de Procesos: %d\n",stat.Processes)
-    fmt.Printf("Numero de Procesos en Ejecucion: %d\n",stat.ProcsRunning)
-    fmt.Printf("Numero de Procesos Bloqueados: %d\n",stat.ProcsBlocked)
+    
+    fmt.Printf("_____________________________________\n")
 
     TestMemInfo()
-   
-    
+    fmt.Printf("=====================================\n")
+
+    fmt.Printf("Total Process: %d\n",stat.Processes)
+    fmt.Printf("Process Locked: %d\n",stat.ProcsBlocked)
+
+    readAllProcess()
+    fmt.Printf("=====================================\n")
 }
 
 func TestMemInfo() {
 	read, err := ReadMemInfo("/proc/meminfo")
 	if err != nil {
-		log.Fatal("meminfo read fail: %s",err)
+		log.Fatal("meminfo read fail:",err)
     }
     MemoriaTotal := read.MemTotal/1000
     MemoriaConsumida := ((read.MemTotal-read.MemAvailable)/1000)
-    fmt.Printf("Memoria Total del Servidor: %d MB \n",  MemoriaTotal)
-    fmt.Printf("Memoria Total Consumida: %d MB\n", MemoriaConsumida)
-	fmt.Printf("Porcentaje de Consumo de RAM: %f %%\n", ((float64(MemoriaConsumida)*100)/float64(MemoriaTotal) ))
+    fmt.Printf("Memory Total Server: %d MB \n",  MemoriaTotal)
+    fmt.Printf("Memory Total Consumed: %d MB\n", MemoriaConsumida)
+	fmt.Printf("percentage of RAM Consumption: %f %%\n", ((float64(MemoriaConsumida)*100)/float64(MemoriaTotal) ))
 }
